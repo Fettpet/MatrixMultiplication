@@ -1,0 +1,188 @@
+\documentclass[11pt,a4paper,headsepline,notitlepage,cleardoubleempty,BCOR=20mm,twoside,DIV=12]{scrreprt}
+\usepackage[utf8]{inputenc} 
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usetikzlibrary{arrows,shapes,trees}
+\newcommand{\thema}{Effizente Matrix Multiplikation}
+\newcommand{\artderarbeit}{Praktikum}
+\newcommand{\dasdatum}{\today}
+\newcommand{\studentname}{Hahn}
+\newcommand{\studentvorname}{Tobias Sebastian}
+\newcommand{\matrikelnummer}{3778426}
+\newcommand{\studiengang}{MA Informatik}
+\newcommand{\beginam}{13.01.2016}
+\newcommand{\einzureichenam}{25.01.2016}
+
+\usepackage{caption}
+\captionsetup[figure]{skip=2pt}
+\addtokomafont{disposition}{\rmfamily} 
+\usepackage{natbib}
+\usepackage{wrapfig}
+\usepackage{longtable}
+\usepackage{booktabs} 
+\usepackage{pdflscape} 
+\usepackage[toc,page]{appendix}
+
+\newcommand{\student}{\studentvorname\text{ }\studentname}
+\let\endproof\relax
+\let\proof\relax
+
+
+\usepackage{amsthm}
+\usepackage[german]{babel}
+ \usepackage[T1]{fontenc}
+ \usepackage{rotating} 
+\usepackage{amsmath} % amsthm is important!
+\usepackage{float} 
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage[activate]{pdfcprot}
+\usepackage{lmodern}
+\usepackage{hyperref}
+\usepackage[active]{srcltx}
+\usepackage{listings}
+
+\definecolor{LinkColor}{named}{black}
+\hypersetup{
+        pdftitle={\thema},
+        pdfauthor={\student},
+        pdfkeywords={},
+        colorlinks=true,
+        linkcolor=LinkColor,
+        citecolor=LinkColor,
+        filecolor=LinkColor,
+        menucolor=LinkColor,
+        urlcolor=LinkColor,
+        pdfborderstyle={}
+}
+
+
+
+
+
+%  \usepackage{tikz}
+%Base font should be sans serif
+\renewcommand*\familydefault{\sfdefault}
+\renewcommand\labelitemi{\normalfont\rmfamily\textbullet}
+% \renewcommand\textasteriskcentered{\normalfont\rmfamily\textbullet}
+\renewcommand\scshape{\bfseries}
+
+% Fix problems with the default lstlistoflistings
+\makeatletter
+\@ifundefined{float@listhead}{}{%
+    \renewcommand*{\lstlistoflistings}{%
+        \begingroup
+    	    \if@twocolumn
+                \@restonecoltrue\onecolumn
+            \else
+                \@restonecolfalse
+            \fi
+            \float@listhead{\lstlistlistingname}%
+            \setlength{\parskip}{\z@}%
+            \setlength{\parindent}{\z@}%
+            \setlength{\parfillskip}{\z@ \@plus 1fil}%
+            \@starttoc{lol}%
+            \if@restonecol\twocolumn\fi
+        \endgroup
+    }%
+}
+\makeatother
+
+
+\usepackage{shadethm}
+%\newshadetheorem{exampleT}{Example}
+\definecolor{shadethmcolor}{rgb}{1,1,1}   % Farbe des Hintergrundes 
+\definecolor{shaderulecolor}{rgb}{1.0,0.0,1.0}   % Farbe des Rahmens
+\begin{document} 
+%\newframedtheorem{thmL}
+\theoremstyle{definition}
+\newtheorem*{Proof}{Proof}
+\newtheorem{Lemma}{Lemma}
+
+\newtheorem{Prop}{Proposition}
+\newtheoremstyle{kursiv}% kursive Schrift
+{10pt}% hSpace abovei
+{10pt}% hSpace belowi
+{\itshape}% hBody fonti
+{}% hIndent amounti1
+{\bfseries}% hTheorem head fonti
+{}% Punctuation after theorem headi
+{0.8em}% hSpace after theorem headi2
+%{}% hTheorem head spec (can be left empty, meaning `normal')
+{\bfseries{\thmname{#1}\thmnumber{ #2}.\thmnote{ \hspace{0.5em}(#3)\newline}}}% hTheorem head spec (can be left empty, meaning `normal')
+\theoremstyle{kursiv}
+\newtheorem{thmL}{Definition}
+
+
+\date{\dasdatum}
+
+\title{\small{\artderarbeit} \\ \Large{\textbf{\thema}}}
+\author{\student}
+
+
+\begin{titlepage}
+        \vspace*{\bigskipamount}
+        \begin{center}
+                \noindent \textbf{\LARGE{\artderarbeit}}\\[4ex]
+                \noindent%
+                \textbf{%
+                                \huge{%
+                                \thema
+                        }
+                }\\[10ex]
+                \Large \student\\[0.5ex]
+		\Large \today\\[4ex]
+		\Large Matrikelnummer: \matrikelnummer
+        \end{center}
+\begin{flushleft}
+\vfill
+\end{flushleft}
+\end{titlepage}
+\clearpage
+
+\newpage
+\thispagestyle{empty}
+
+\vfill
+
+
+\newpage 
+\include{topic}
+\newpage
+\mbox{} \thispagestyle{empty}
+\newpage
+\tableofcontents
+\newpage
+ 
+\quad
+\newpage
+
+\input{Aufgabe1}
+
+\input{Aufgabe2}
+
+\input{Aufgabe3}
+
+
+\input{Aufgabe4}
+
+			
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

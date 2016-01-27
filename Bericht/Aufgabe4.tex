@@ -1,0 +1,17 @@
+\chapter{Aufgabe 4}
+\textit{Berechnen Sie die theoretische Floating-Point-Peak-Performance des Prozessors. Bewerten und begründen Sie die Unterschiede der Leistung ihrer Implementierung im Vergleich zur maximal erreichbaren Leistung.}
+
+Der Intel Xeon E5-2690 hat eine Taktfrequenz von 2,9GHz. Er hat AVX, d.h. er kann 8 single precision Werte Gleichzeitig verarbeiten. Der Sandy Bridge Prozessor besitzt 8 Kerne. Für Single Precision wird Fused multiply add unterstützt.
+Die GFLOPS können wie folgt berechnet werden. 
+\[2,9 * 8 * 8 * 2 = 371,2 GFLOP/s \]
+Im besten Fall erreichen wir Zwei Prozent der maximal möglichen Leistung. Der erste große unterschied der auffällt ist, das wir auf einem Kern statt auf acht rechnen. Der zweite unterschied ist, dass wir Double Precision statt single Presicion benutzen. Hierfür wird Fused multiply add nicht unterstützt. Wir können also eine neue Rechnung aufstellen. Für unser Programm ergibt sich eine maximale Performance von:
+\[2,9 * 8 = 23,2 GFLOP/s\]
+Die beste Variante erreicht 25\% der Leistung. 
+
+Gründe warum die Leistung in unserer Implementierung niedriger sind, als die theoretische Leistung sind:
+\begin{enumerate}
+ \item Die $B$ Matrix wird vor und nach der Berechnung transponiert. Dies benötigt quadratisch Zeit, in Bezug auf die Matrixgröße.
+ \item Durch die Zählschleifen werden kubisch viele Sprünge durchgeführt.  
+ \item Die größeren Matrizen passen nicht in die Caches. Die benötigten Zahlen müssen aus dem Hauptspeicher geladen werden. Dies ist teuer. 
+\end{enumerate}
+

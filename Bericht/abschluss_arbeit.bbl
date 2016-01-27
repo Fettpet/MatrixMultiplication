@@ -1,0 +1,55 @@
+\begin{thebibliography}{10}
+
+\bibitem{Bylander94thecomputational}
+T.~Bylander, ``{The Computational Complexity of Propositional STRIPS
+  Planning},'' {\em Artificial Intelligence}, vol.~69, pp.~165--204, 1994.
+
+\bibitem{Cook:1971:CTP:800157.805047}
+S.~Cook, ``The complexity of theorem-proving procedures,'' in {\em Proceedings
+  of the Third Annual ACM Symposium on Theory of Computing}, STOC '71, (New
+  York, NY, USA), pp.~151--158, ACM, 1971.
+
+\bibitem{anton2010elementary}
+H.~Anton and C.~Rorres, {\em Elementary Linear Algebra: Applications Version}.
+\newblock John Wiley \& Sons, 2010.
+
+\bibitem{HollLog}
+S.~Hölldobler, {\em Logik und Logikprogrammierung Band 1: Grundlagen}.
+\newblock Synchron Publishers GmbH, Heidelberg, 2009.
+
+\bibitem{NorbertBeleg}
+N.~Manthey, ``Memory hierarchy utilization of a sat solver,'' Master's thesis,
+  TU Dresden, 2010.
+
+\bibitem{KIEMA11}
+S.~Russel and P.~Norvig, {\em Künstliche Intelligez, Ein moderner Ansatz},
+  ch.~11.
+\newblock Pearson Studium, 2004.
+
+\bibitem{Garey:1990:CIG:574848}
+M.~Garey and D.~Johnson, {\em Computers and Intractability; A Guide to the
+  Theory of NP-Completeness}.
+\newblock New York, NY, USA: W. H. Freeman \& Co., 1990.
+
+\bibitem{Pis95Thesis}
+D.~Pisinger, {\em Algorithms for Knapsack Problems}.
+\newblock PhD thesis, DIKU, University of Copenhagen, Denmark, 1995.
+
+\bibitem{Kar72}
+R.~Karp, ``Reducibility among combinatorial problems,'' in {\em Complexity of
+  Computer Computations} (R.~Miller and J.~Thatcher, eds.), pp.~85--103, Plenum
+  Press, 1972.
+
+\bibitem{AtMostOneBetter1}
+W.~Klieber and G.~Kwon, ``Efficient cnf encoding for selecting 1 from n
+  objects,'' {\em International Workshop on Constraints in Formal
+  Verification}, 2007.
+
+\bibitem{Sorter}
+A.~O. Ignasi~Abío, Robert~Nieuwenhuis and E.~Rodríguez-Carbonell, ``A
+  parametric approach for smaller and better encodings of cardinality
+  constraints,'' in {\em Principles and Practice of Constraint Programming}
+  (C.~Schulte, ed.), vol.~8124 of {\em Lecture Notes in Computer Science},
+  pp.~80--96, Springer Berlin Heidelberg, 2013.
+
+\end{thebibliography}

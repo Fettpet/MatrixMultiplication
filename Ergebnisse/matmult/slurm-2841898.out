@@ -1,0 +1,37 @@
+gcc version 5.3.0 for x86_64 architecture loaded.
+intel version 2013 for x86_64 architecture loaded.
+./main.c(235): warning #161: unrecognized #pragma
+  #pragma Loop_Optimize Unroll
+          ^
+
+./main.c(240): warning #161: unrecognized #pragma
+  #pragma Loop_Optimize(Unroll)
+          ^
+
+./main.c(235): warning #161: unrecognized #pragma
+  #pragma Loop_Optimize Unroll
+          ^
+
+./main.c(240): warning #161: unrecognized #pragma
+  #pragma Loop_Optimize(Unroll)
+          ^
+
+./main.c(19): (col. 1) remark: main has been targeted for automatic cpu dispatch.
+./main.c(235): warning #161: unrecognized #pragma
+  #pragma Loop_Optimize Unroll
+          ^
+
+./main.c(240): warning #161: unrecognized #pragma
+  #pragma Loop_Optimize(Unroll)
+          ^
+
+./main.c(19): (col. 1) remark: main has been targeted for automatic cpu dispatch.
+./main.c(235): warning #161: unrecognized #pragma
+  #pragma Loop_Optimize Unroll
+          ^
+
+./main.c(240): warning #161: unrecognized #pragma
+  #pragma Loop_Optimize(Unroll)
+          ^
+
+./main.c(19): (col. 1) remark: main has been targeted for automatic cpu dispatch.

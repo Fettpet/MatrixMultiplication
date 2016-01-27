@@ -1,0 +1,66 @@
+This is BibTeX, Version 0.99d (TeX Live 2014/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: abschluss_arbeit.aux
+A level-1 auxiliary file: topic.aux
+A level-1 auxiliary file: Bilder/Example1.aux
+A level-1 auxiliary file: Bilder/Example2.aux
+A level-1 auxiliary file: Bilder/Example3.aux
+A level-1 auxiliary file: Bilder/Example4.aux
+A level-1 auxiliary file: Bilder/ExampleTileMatrixFunction.aux
+A level-1 auxiliary file: Bilder/ExampleEinflussTile.aux
+A level-1 auxiliary file: Bilder/ExampleSortingNetwork.aux
+A level-1 auxiliary file: Bilder/ModuloConstraintExample.aux
+The style file: ieeetr.bst
+Database file #1: Quellen.bib
+I was expecting a `,' or a `}'---line 52 of file Quellen.bib
+ :   
+ :   year = {2013}
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 198 of file Quellen.bib
+ : 
+ : type= {Term paper ({Belegarbeit})}
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+You've used 11 entries,
+            1876 wiz_defined-function locations,
+            565 strings with 5445 characters,
+and the built_in function-call counts, 2410 in all, are:
+= -- 236
+> -- 76
+< -- 0
++ -- 30
+- -- 19
+* -- 147
+:= -- 354
+add.period$ -- 16
+call.type$ -- 11
+change.case$ -- 6
+chr.to.int$ -- 0
+cite$ -- 11
+duplicate$ -- 133
+empty$ -- 267
+format.name$ -- 19
+if$ -- 595
+int.to.chr$ -- 0
+int.to.str$ -- 11
+missing$ -- 13
+newline$ -- 41
+num.names$ -- 15
+pop$ -- 46
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 67
+stack$ -- 0
+substring$ -- 111
+swap$ -- 39
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 0
+while$ -- 24
+width$ -- 13
+write$ -- 109
+(There were 2 error messages)

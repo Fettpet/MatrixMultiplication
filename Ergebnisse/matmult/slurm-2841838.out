@@ -1,0 +1,6 @@
+gcc version 5.3.0 for x86_64 architecture loaded.
+ModuleCmd_Load.c(208):ERROR:105: Unable to locate a modulefile for 'icc'
+/var/spool/slurm//job2841838/slurm_script: Zeile 18: icc: Kommando nicht gefunden.
+/var/spool/slurm//job2841838/slurm_script: Zeile 20: icc: Kommando nicht gefunden.
+/var/spool/slurm//job2841838/slurm_script: Zeile 22: icc: Kommando nicht gefunden.
+/var/spool/slurm//job2841838/slurm_script: Zeile 24: icc: Kommando nicht gefunden.

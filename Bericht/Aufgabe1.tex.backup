@@ -1,0 +1,264 @@
+\chapter{Aufgabe 1}
+\textit{Für  die  Multiplikation  zweier  nxn-Matrizen  soll  ein  möglichst  effizienter  Algorithmus gefunden  werden. Nutzen  Sie  dazu  den  vorgegebenen Quelltext,  der  bereits  die Basisvariante  und  eine  Zeitmessroutine  enthält.  Diese  Basisvariante  sollen  Sie optimieren –zunächst ohne zusätzliche Compiler-Flags.} \\
+
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=single,	                   % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{blue},       % keyword style
+  language=Octave,                 % the language of the code
+  otherkeywords={*,...},           % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=2,	                   % sets default tabsize to 2 spaces
+  title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+
+Der gegebene Quelltext ist in Abbildung \ref{FIGUREORIGINAL} gegeben. Ein großes Problem ist der Zugriff auf die B Matrix ($k * dim + j$). Da k der Bezeichner für die innerste Schleife ist, kommt es durch die Multiplikation mit $dim$ zu vielen Cachemisses. Dies kann umgangen werden indem die Matrix B transponiert wird. Die Transponierungsfunktion ist in Abbildung \ref{FIGURETRANS} geben. Der Quellcode der Optimierung sieht man in Abbildung \ref{FIGUREMATTRANS}. In diesem Quellcode wurden zusätzlich die Indexberechnungen aus der innersten Schleife herausgezogen. Dazu wurden die Variablen $idim$ und $jdim$ eingeführt.
+Die innerste Schleife berechnet eine Multiplikation und eine Addition. Danach kommen Operationen, die nicht helfen das Ergebnis zu berechnen. Um die arithmetische Intensität zu erhöhen rollen wir die innere Schleife aus. Da alle getesteten Matrixgrößen den gemeinsamen Teiler 32 haben, nehmen wir diesen Wert als Ausrollparameter genommen. Der Ausrollparameter hat den Bezeichner $BLOCK\_SIZE$. Der Quelltext kann in Abbildung \ref{FIGUREAUS} gesehen werden. Für diese Funktion wird das Makro $ADDER$ definiert. Diese Makro multipliziert zwei Zellen der Matrizen A und B. 
+Als letzte Optimierung haben wir Tiling implementiert. Der Quellcode ist in Abbildung \ref{FIGURETILING} dargestellt. Dieser Quelltext nutzt auch die Ausrollung der innersten Schleife und die Transponierung der Matrix B. 
+
+
+
+\lstset{language=c}
+\begin{figure}[h]
+%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%original Quelltext
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{lstlisting}
+mat_mult_non_opt(double *A, double *B, double *C, const unsigned int dim)
+{
+  for ( uint32_t i = 0; i < dim; i++ )
+  {
+    for ( uint32_t j = 0; j < dim; j++ )
+    {
+        for ( uint32_t k = 0; k < dim; k++ )
+        {
+            // C[i][j] += A[i][k] * B[k][j]
+            C[ i * dim + j ] += A[ i * dim + k ] * B[ k * dim + j ];    
+        }
+    }
+  }
+}
+\end{lstlisting}
+\captionsetup[figure]{skip=10pt}
+\caption{Der Quelltext der nicht optimierten Matrixmultiplikation.}
+\noindent\rule{14cm}{0.4pt}
+\label{FIGUREORIGINAL}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+% Transpose Quelltext
+%%%%%%%%%%%%%%%%%%%%%%%
+\lstset{language=c}
+\begin{figure}[h]
+ 
+\begin{lstlisting}
+transpose_mat( double* mat, const unsigned int dim)
+{
+  int i, j;
+  for( i=1; i<dim; ++i){
+      for( j=0; j<i; ++j){
+	  double help = mat[ i * dim +j];
+	  mat[ i * dim + j ] = mat[ j * dim + i];
+	  mat[ j * dim + i ] = help;
+      }
+  }
+}
+\end{lstlisting}
+\caption{Diese Funktion transponiert eine Matrix.}
+\noindent\rule{14cm}{0.4pt}
+\label{FIGURETRANS}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAt transpose Mult
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\lstset{language=c}
+\begin{figure}[h]
+ 
+\begin{lstlisting}
+mat_mult_transpose(double *A, double *B, double *C, int dim)
+{
+  transpose_mat(B, dim);
+  uint32_t j, i;
+  uint32_t idim, jdim;
+  double temp;
+  for ( j = 0; j < dim; j++ )
+  {
+      jdim = j * dim;
+      for (  i = 0; i < dim; i++ )
+      {
+	  idim = i * dim;
+	  for (size_t k = 0; k < dim; k++ )
+	  {
+	      C[ idim + j ] += A[ idim + k ] * b[ jdim + k ];
+	  }
+      }
+  }
+  transpose_mat(B, dim);
+}
+\end{lstlisting}
+\caption{Die Funktion berechnet die Matrixmultiplikation. Vor und nach der Berechnung wird B transponiert}
+\noindent\rule{14cm}{0.4pt}
+\label{FIGUREMATTRANS}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%5
+%Unroll
+%%%%%%%%%%%%%%%%%%%%%%%%
+\lstset{language=c}
+\begin{figure}[h]
+ 
+\begin{lstlisting}
+mat_mult_unroll_transpose( double *A, double *B, double *C, int dim)
+{
+  #define ADDER(a) (A[ idimk + a] * B[ jdimk + a])
+  transpose_mat(B, dim);
+  uint32_t i, j, k;
+  uint32_t idim, jdim, idimk, jdimk;
+  for (  i = 0; i < dim; i++ )
+  {
+    idim = i*dim;
+    for (  j = 0; j < dim; j++ )
+    {
+        jdim= j*dim;
+        for (  k = 0; k < dim; k+=32 )
+        {
+            jdimk = jdim+k;
+            idimk = idim+k;
+
+            C[ idim + j] += ADDER(0)
+                + ADDER(1)
+                + ADDER(2)
+                + ADDER(3)
+                + ADDER(4)
+                + ADDER(5)
+                + ADDER(6)
+                + ADDER(7)
+                + ADDER(8)
+                + ADDER(9)
+                + ADDER(10)
+                + ADDER(11)
+                + ADDER(12)
+                + ADDER(13)
+                + ADDER(14)
+                + ADDER(15)
+                + ADDER(16)
+                + ADDER(17)
+                + ADDER(18)
+                + ADDER(19)
+                + ADDER(20)
+                + ADDER(21)
+                + ADDER(22)
+                + ADDER(23)
+                + ADDER(24)
+                + ADDER(25)
+                + ADDER(26)
+                + ADDER(27)
+                + ADDER(28)
+                + ADDER(29)
+                + ADDER(30)
+                + ADDER(31);
+        }
+    }
+  }
+  transpose_mat(B, dim);
+  #undef ADDER
+}
+\end{lstlisting}
+\caption{Test}
+\noindent\rule{14cm}{0.4pt}
+\label{FIGUREAUS}
+\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%
+%Blocking
+%%%%%%%%%%%%%%%%%%%%%%
+\lstset{language=c}
+\begin{figure}[h]
+ 
+\begin{lstlisting}
+#define ADDER(a) (A[posXA_i_dim_posYA+ a] * B[posYB_j_dim_posYA + a ])
+transpose_mat(A, dim);
+uint32_t i, j, posXA, posYA, posYB;
+uint32_t posYB_j_dim, posXA_i, posYB_j_dim_posYA, posXA_i_dim_posYA ;
+for(posXA=0; posXA<dim; posXA +=BLOCK_SIZE)
+{
+    for(posYA=0; posYA<dim; posYA += BLOCK_SIZE)
+    {
+        for(posYB=0; posYB<dim; posYB += BLOCK_SIZE)
+        {
+            for(i=0; i<BLOCK_SIZE; ++i)
+            {
+                posXA_i = posXA + i;
+                posXA_i_dim_posYA = (posXA + i) * dim + posYA;
+                for(j=0; j<BLOCK_SIZE; ++j)
+                {
+                    posYB_j_dim = (posYB + j) * dim;
+                    posYB_j_dim_posYA =  (posYB + j) * dim + posYA;
+                    C[ posYB_j_dim  + (posXA_i)] += ADDER(0)
+                        + ADDER(1)
+                        + ADDER(2)
+                        + ADDER(3)
+                        + ADDER(4)
+                        + ADDER(5)
+                        + ADDER(6)
+                        + ADDER(7)
+                        + ADDER(8)
+                        + ADDER(9)
+                        + ADDER(10)
+                        + ADDER(11)
+                        + ADDER(12)
+                        + ADDER(13)
+                        + ADDER(14)
+                        + ADDER(15)
+                        + ADDER(16)
+                        + ADDER(17)
+                        + ADDER(18)
+                        + ADDER(19)
+                        + ADDER(20)
+                        + ADDER(21)
+                        + ADDER(22)
+                        + ADDER(23)
+                        + ADDER(24)
+                        + ADDER(25)
+                        + ADDER(26)
+                        + ADDER(27)
+                        + ADDER(28)
+                        + ADDER(29)
+                        + ADDER(30)
+                        + ADDER(31);
+                }
+            }
+        }
+    }
+}
+transpose_mat(A, dim);
+#undef ADDER
+\end{lstlisting}
+\caption{Test}
+\noindent\rule{14cm}{0.4pt}
+\label{FIGUREAUS}
+\end{figure}
